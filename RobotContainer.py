@@ -12,6 +12,7 @@ from subsystems.CANRollerSubsystem import CANRollerSubsystem
 from commands.DriveCommand import DriveCommand
 from commands.RollerCommand import RollerCommand
 from commands.AutoCommand import AutoCommand
+from commands.FuzzyBallIntake import BallIntake
 
 
 class RobotContainer:
@@ -45,16 +46,23 @@ class RobotContainer:
         )
         self.rollerSubsystem.setDefaultCommand(
             RollerCommand(
-                lambda: self.operatorController.getRightTriggerAxis(),
-                lambda: self.operatorController.getLeftTriggerAxis(),
+                lambda: self.driverController.getRightTriggerAxis(),
+                lambda: self.driverController.getLeftTriggerAxis(),
                 self.rollerSubsystem,
             )
         )
-        self.operatorController.a().whileTrue(
+        self.driverController.a().whileTrue(
             RollerCommand(
             lambda: Constants.ROLLER_MOTOR_EJECT_SPEED, 
             lambda: 0, 
             self.rollerSubsystem)
+        )
+        self.rollerSubsystem.setDefaultCommand(
+            BallIntake(
+                lambda: self.driverController.y(),
+                lambda: self.driverController.b(),
+                self.rollerSubsystem,
+            )
         )
 
     def getAutonomousCommand(self) -> commands2.Command:
