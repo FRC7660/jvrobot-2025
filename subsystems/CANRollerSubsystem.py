@@ -3,7 +3,7 @@
 # the WPILib BSD license file in the root directory of this project.F
 
 import commands2
-import rev
+from phoenix5 import WPI_VictorSPX, NeutralMode
 
 import Constants
 
@@ -11,32 +11,19 @@ import Constants
 class CANRollerSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
         super().__init__()
+  
+        self.rolleyThingey = WPI_VictorSPX(Constants.ROLLEY_THINGEY_ID) 
 
-        self.rollerMotor = rev.SparkMax(
-            Constants.ROLLER_MOTOR_ID, rev.SparkBase.MotorType.kBrushed
-        )
+        self.rolleyThingey.configVoltageCompSaturation(12.0)
 
-        # set can timeouts. This program only sets parameters on startup and
-        # doesn't get any parameters so a long timeout is acceptable. Programs
-        # which set or get parameters during runtime likely want a timeout
-        # closer or equal to the default.
-        self.rollerMotor.setCANTimeout(250)
+        self.rolleyThingey.setExpiration(0.250)
 
-        self.sparkConfig = rev.SparkMaxConfig()
-        # enable voltage compensation. This makes the performance more consistent
-        # at different levels of battery charge at the cost of some peak performance
-        # with a fully charged battery. Because the roller never really needs the full
-        # speed, the compensation value is set very conservatively
-        self.sparkConfig.voltageCompensation(Constants.ROLLER_MOTOR_VCOMP)
-        self.sparkConfig.smartCurrentLimit(
-            Constants.ROLLER_MOTOR_CURRENT_LIMIT
-        )
-        self.rollerMotor.configure(
-            self.sparkConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
-        )
+        self.rolleyThingey.setSafetyEnabled(True)
+
+        self.rolleyThingey.enableVoltageCompensation(True)
+
+        self.rolleyThingey.setNeutralMode(NeutralMode.Brake)
 
     # function to run the roller with joystick inputs
     def runRoller(self, forward: float, reverse: float) -> None:
-        self.rollerMotor.set(forward - reverse)
+        self.rolleyThingey.set(forward - reverse)
