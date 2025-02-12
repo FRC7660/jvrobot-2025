@@ -5,27 +5,27 @@
 import commands2
 import wpilib
 import wpilib.drive
-from phoenix5 import WPI_VictorSPX, NeutralMode
+from phoenix5 import WPI_TalonSRX, NeutralMode
 import Constants
 
 class CANDriveSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
         super().__init__()
 
-        self.leftLeader = WPI_VictorSPX(Constants.LEFT_LEADER_ID)  
-        self.leftFollower = WPI_VictorSPX(Constants.LEFT_FOLLOWER_ID) 
-        self.rightLeader = WPI_VictorSPX(Constants.RIGHT_LEADER_ID)  
-        self.rightFollower = WPI_VictorSPX(Constants.RIGHT_FOLLOWER_ID) 
+        self.leftLeader = WPI_TalonSRX(Constants.LEFT_LEADER_ID)  
+        self.leftFollower = WPI_TalonSRX(Constants.LEFT_FOLLOWER_ID) 
+        self.rightLeader = WPI_TalonSRX(Constants.RIGHT_LEADER_ID)  
+        self.rightFollower = WPI_TalonSRX(Constants.RIGHT_FOLLOWER_ID) 
 
         self.leftLeader.configVoltageCompSaturation(12.0)
         self.leftFollower.configVoltageCompSaturation(12.0)
         self.rightLeader.configVoltageCompSaturation(12.0)
         self.rightFollower.configVoltageCompSaturation(12.0)
 
-        self.leftLeader.setExpiration(0.250)
-        self.leftFollower.setExpiration(0.250)
-        self.rightLeader.setExpiration(0.250)
-        self.rightFollower.setExpiration(0.250)
+        # self.leftLeader.setExpiration(0.250)
+        # self.leftFollower.setExpiration(0.250)
+        # self.rightLeader.setExpiration(0.250)
+        # self.rightFollower.setExpiration(0.250)
 
         self.leftLeader.setSafetyEnabled(True)
         self.leftFollower.setSafetyEnabled(True)
