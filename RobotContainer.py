@@ -1,5 +1,7 @@
 import commands2
 import commands2.button
+from wpilib import RobotBase
+from wpilib.simulation import DriverStationSim
 
 import Constants
 from subsystems.FuzzyBallIntake import FuzzyBallIntakeSubsystem
@@ -23,6 +25,13 @@ class RobotContainer:
     """
 
     def __init__(self) -> None:
+        if RobotBase.isSimulation():
+            DriverStationSim.setJoystickButtonCount(
+                Constants.DRIVER_CONTROLLER_PORT, 10
+            )
+            DriverStationSim.setJoystickAxisCount(Constants.DRIVER_CONTROLLER_PORT, 10)
+            DriverStationSim.notifyNewData()
+
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
         )
@@ -82,4 +91,4 @@ class RobotContainer:
 
 
     def getAutonomousCommand(self) -> commands2.Command:
-        return AutoCommand()
+        return AutoCommand(self.driveSubsystem)

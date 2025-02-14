@@ -6,7 +6,7 @@ import commands2
 from phoenix5 import WPI_VictorSPX, NeutralMode
 
 import Constants
-
+from wpilib import RobotBase
 
 class CANRollerSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
@@ -16,9 +16,14 @@ class CANRollerSubsystem(commands2.Subsystem):
 
         self.rolleyThingey.configVoltageCompSaturation(12.0)
 
-        # self.rolleyThingey.setExpiration(0.250)
+        self.rolleyThingey.setExpiration(9.9 * 10 ** 9)
 
-        self.rolleyThingey.setSafetyEnabled(True)
+        if RobotBase.isSimulation():
+            self.rolleyThingey.setSafetyEnabled(False)
+        else:
+            self.rolleyThingey.setSafetyEnabled(True)
+
+
 
         self.rolleyThingey.enableVoltageCompensation(True)
 

@@ -4,6 +4,16 @@
       "window": {
         "visible": true
       }
+    },
+    "Solenoids": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
+      }
     }
   },
   "NTProvider": {

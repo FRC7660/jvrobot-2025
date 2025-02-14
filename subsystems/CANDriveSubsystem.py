@@ -7,6 +7,7 @@ import wpilib
 import wpilib.drive
 from phoenix5 import WPI_TalonSRX, NeutralMode
 import Constants
+from wpilib import RobotBase
 
 class CANDriveSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
@@ -22,15 +23,21 @@ class CANDriveSubsystem(commands2.Subsystem):
         self.rightLeader.configVoltageCompSaturation(12.0)
         self.rightFollower.configVoltageCompSaturation(12.0)
 
-        # self.leftLeader.setExpiration(0.250)
-        # self.leftFollower.setExpiration(0.250)
-        # self.rightLeader.setExpiration(0.250)
-        # self.rightFollower.setExpiration(0.250)
+        self.leftLeader.setExpiration(9.9 * 10 ** 9)
+        self.leftFollower.setExpiration(9.9 * 10 ** 9)
+        self.rightLeader.setExpiration(9.9 * 10 ** 9)
+        self.rightFollower.setExpiration(9.9 * 10 ** 9)
 
-        self.leftLeader.setSafetyEnabled(True)
-        self.leftFollower.setSafetyEnabled(True)
-        self.rightLeader.setSafetyEnabled(True)
-        self.rightFollower.setSafetyEnabled(True)
+        if RobotBase.isSimulation():
+            self.leftLeader.setSafetyEnabled(False)
+            self.leftFollower.setSafetyEnabled(False)
+            self.rightLeader.setSafetyEnabled(False)
+            self.rightFollower.setSafetyEnabled(False)
+        else:
+            self.leftLeader.setSafetyEnabled(True)
+            self.leftFollower.setSafetyEnabled(True)
+            self.rightLeader.setSafetyEnabled(True)
+            self.rightFollower.setSafetyEnabled(True)
 
         self.leftLeader.enableVoltageCompensation(True)
         self.leftFollower.enableVoltageCompensation(True)
