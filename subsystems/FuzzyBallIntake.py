@@ -9,7 +9,7 @@ class FuzzyBallIntakeSubsystem(commands2.Subsystem):
         super().__init__()
 
         self.rollerMotor = rev.SparkMax(
-            Constants.ROLLEYARM_MOTOR_ID, rev.SparkBase.MotorType.kBrushed
+            Constants.ROLLEYARM_MOTOR_ID, rev.SparkBase.MotorType.kBrushless
         )
 
         self.rollerMotor.setCANTimeout(250)

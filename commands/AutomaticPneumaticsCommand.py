@@ -8,6 +8,7 @@ class AutomaticPneumaticsCommand(commands2.Command):
         pneumatics_subsystem: AutomaticPneumatics,
     ) -> None:
         self.button = button
+        self.extend = False 
         self.button_previous = False 
         self.pneumatics_subsystem = pneumatics_subsystem
         self.addRequirements(self.pneumatics_subsystem)
@@ -18,7 +19,9 @@ class AutomaticPneumaticsCommand(commands2.Command):
 
     def execute(self) -> None:
         if self.button_previous == False and self.button().getAsBoolean() == True:
-            self.pneumatics_subsystem.toggle_solenoid()
+            self.pneumatics_subsystem.set_solenoid_0(self.extend)
+            self.pneumatics_subsystem.set_solenoid_1(not self.extend)
+            self.extend = not self.extend
         self.button_previous = self.button().getAsBoolean()
 
     def end(self, interrupted: bool) -> None:

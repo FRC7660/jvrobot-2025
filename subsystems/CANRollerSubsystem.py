@@ -16,7 +16,7 @@ class CANRollerSubsystem(commands2.Subsystem):
 
         self.rolleyThingey.configVoltageCompSaturation(12.0)
 
-        self.rolleyThingey.setExpiration(0.250)
+        # self.rolleyThingey.setExpiration(0.250)
 
         self.rolleyThingey.setSafetyEnabled(True)
 

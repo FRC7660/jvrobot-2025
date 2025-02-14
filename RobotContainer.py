@@ -33,6 +33,8 @@ class RobotContainer:
         self.rollerSubsystem = CANRollerSubsystem()
         self.fuzzyBallIntakeSubsystem = FuzzyBallIntakeSubsystem()
         self.automaticPneumatics = AutomaticPneumatics ()
+        self.automaticPneumatics.set_solenoid_0(True)
+        self.automaticPneumatics.set_solenoid_1(False)
 
         self.configureButtonBindings()
 
@@ -56,6 +58,12 @@ class RobotContainer:
             lambda: Constants.ROLLEY_THINGEY_EJECT_SPEED, 
             lambda: 0, 
             self.rollerSubsystem
+            )
+        ).whileFalse(
+            RollerCommand(
+                lambda: 0,
+                lambda: 0,
+                self.rollerSubsystem,
             )
         )
         self.fuzzyBallIntakeSubsystem.setDefaultCommand(
