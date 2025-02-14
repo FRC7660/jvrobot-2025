@@ -5,83 +5,50 @@
 import commands2
 import wpilib
 import wpilib.drive
-import rev
-
+from phoenix5 import WPI_TalonSRX, NeutralMode
 import Constants
-
 
 class CANDriveSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
         super().__init__()
 
-        # spark max motor controllers in brushed mode
-        self.leftLeader = rev.SparkMax(
-            Constants.LEFT_LEADER_ID, rev.SparkBase.MotorType.kBrushed
-        )
-        self.leftFollower = rev.SparkMax(
-            Constants.LEFT_FOLLOWER_ID, rev.SparkBase.MotorType.kBrushed
-        )
-        self.rightLeader = rev.SparkMax(
-            Constants.RIGHT_LEADER_ID, rev.SparkBase.MotorType.kBrushed
-        )
-        self.rightFollower = rev.SparkMax(
-            Constants.RIGHT_FOLLOWER_ID, rev.SparkBase.MotorType.kBrushed
-        )
+        self.leftLeader = WPI_TalonSRX(Constants.LEFT_LEADER_ID)  
+        self.leftFollower = WPI_TalonSRX(Constants.LEFT_FOLLOWER_ID) 
+        self.rightLeader = WPI_TalonSRX(Constants.RIGHT_LEADER_ID)  
+        self.rightFollower = WPI_TalonSRX(Constants.RIGHT_FOLLOWER_ID) 
 
-        # this is the differential drive instance which allows us to control
-        # the drive with joysticks
-        self.drive = wpilib.drive.DifferentialDrive(
-            self.leftLeader, self.rightLeader
-        )
+        self.leftLeader.configVoltageCompSaturation(12.0)
+        self.leftFollower.configVoltageCompSaturation(12.0)
+        self.rightLeader.configVoltageCompSaturation(12.0)
+        self.rightFollower.configVoltageCompSaturation(12.0)
 
-        # set can timeouts. This program only sets parameters on startup and
-        # doesn't get any parameters so a long timeout is acceptable. Programs
-        # which set or get parameters during runtime likely want a timeout
-        # closer or equal to the default.
-        self.leftLeader.setCANTimeout(250)
-        self.rightLeader.setCANTimeout(250)
-        self.leftFollower.setCANTimeout(250)
-        self.rightFollower.setCANTimeout(250)
+        # self.leftLeader.setExpiration(0.250)
+        # self.leftFollower.setExpiration(0.250)
+        # self.rightLeader.setExpiration(0.250)
+        # self.rightFollower.setExpiration(0.250)
 
-        self.sparkConfig = rev.SparkMaxConfig()
+        self.leftLeader.setSafetyEnabled(True)
+        self.leftFollower.setSafetyEnabled(True)
+        self.rightLeader.setSafetyEnabled(True)
+        self.rightFollower.setSafetyEnabled(True)
 
-        # enable voltage compensation. This makes the performance more consistent
-        # at different levels of battery charge at the cost of some peak performance
-        # with a fully charged battery
-        self.sparkConfig.voltageCompensation(12.0)
+        self.leftLeader.enableVoltageCompensation(True)
+        self.leftFollower.enableVoltageCompensation(True)
+        self.rightLeader.enableVoltageCompensation(True)
+        self.rightFollower.enableVoltageCompensation(True)
 
-        # set current limit. This helps prevent tripping breakers
-        self.sparkConfig.smartCurrentLimit(Constants.DRIVE_MOTOR_CURRENT_LIMIT)
+        self.rightLeader.setInverted(True)
+        self.rightFollower.setInverted(True)
 
-        # set to follow leader and then use to configure corresponding follower
-        self.sparkConfig.follow(self.leftLeader)
-        self.leftFollower.configure(
-            self.sparkConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
-        )
-        self.sparkConfig.follow(self.rightLeader)
-        self.rightFollower.configure(
-            self.sparkConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
-        )
+        self.leftFollower.follow(self.leftLeader)
+        self.rightFollower.follow(self.rightLeader)
 
-        # disable following and use to configure leader. Invert before configuring
-        # left side so that postive values drive both sides forward
-        self.sparkConfig.disableFollowerMode()
-        self.rightLeader.configure(
-            self.sparkConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
-        )
-        self.sparkConfig.inverted(True)
-        self.leftLeader.configure(
-            self.sparkConfig,
-            rev.SparkBase.ResetMode.kResetSafeParameters,
-            rev.SparkBase.PersistMode.kPersistParameters,
-        )
+        self.leftLeader.setNeutralMode(NeutralMode.Brake)
+        self.leftFollower.setNeutralMode(NeutralMode.Brake)
+        self.rightLeader.setNeutralMode(NeutralMode.Brake)
+        self.rightFollower.setNeutralMode(NeutralMode.Brake)
 
-    # function to drive with joystick inputs
+        self.drive = wpilib.drive.DifferentialDrive(self.leftLeader, self.rightLeader)
+        
     def arcadeDrive(self, xSpeed: float, zRotation: float) -> None:
         self.drive.arcadeDrive(xSpeed, zRotation)

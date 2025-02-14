@@ -1,17 +1,17 @@
-# Copyright (c) FIRST and other WPILib contributors.
-# Open Source Software; you can modify and/or share it under the terms of
-# the WPILib BSD license file in the root directory of this project.
-
 import commands2
 import commands2.button
 
 import Constants
+from subsystems.FuzzyBallIntake import FuzzyBallIntakeSubsystem
+from subsystems.AutomaticPneumatics import AutomaticPneumatics
 from subsystems.CANDriveSubsystem import CANDriveSubsystem
 from subsystems.CANRollerSubsystem import CANRollerSubsystem
 
 from commands.DriveCommand import DriveCommand
 from commands.RollerCommand import RollerCommand
 from commands.AutoCommand import AutoCommand
+from commands.FuzzyBallIntake import FuzzyBallIntakeCommand
+from commands.AutomaticPneumaticsCommand import AutomaticPneumaticsCommand
 
 
 class RobotContainer:
@@ -31,10 +31,13 @@ class RobotContainer:
         )
         self.driveSubsystem = CANDriveSubsystem()
         self.rollerSubsystem = CANRollerSubsystem()
+        self.fuzzyBallIntakeSubsystem = FuzzyBallIntakeSubsystem()
+        self.automaticPneumatics = AutomaticPneumatics ()
+        self.automaticPneumatics.set_solenoid_0(True)
+        self.automaticPneumatics.set_solenoid_1(False)
 
         self.configureButtonBindings()
 
-    # function to bind commands to buttons on the operator and driver controllers.
     def configureButtonBindings(self):
         self.driveSubsystem.setDefaultCommand(
             DriveCommand(
@@ -43,19 +46,40 @@ class RobotContainer:
                 self.driveSubsystem,
             )
         )
-        self.rollerSubsystem.setDefaultCommand(
+     #   self.rollerSubsystem.setDefaultCommand(
+        #    # RollerCommand(
+        #         lambda: self.driverController.getRightTriggerAxis(),
+        #         lambda: self.driverController.getLeftTriggerAxis(),
+        #         self.rollerSubsystem,
+        #     )
+        # )
+        self.driverController.a().whileTrue(
             RollerCommand(
-                lambda: self.operatorController.getRightTriggerAxis(),
-                lambda: self.operatorController.getLeftTriggerAxis(),
+            lambda: Constants.ROLLEY_THINGEY_EJECT_SPEED, 
+            lambda: 0, 
+            self.rollerSubsystem
+            )
+        ).whileFalse(
+            RollerCommand(
+                lambda: 0,
+                lambda: 0,
                 self.rollerSubsystem,
             )
         )
-        self.operatorController.a().whileTrue(
-            RollerCommand(
-            lambda: Constants.ROLLER_MOTOR_EJECT_SPEED, 
-            lambda: 0, 
-            self.rollerSubsystem)
+        self.fuzzyBallIntakeSubsystem.setDefaultCommand(
+            FuzzyBallIntakeCommand(
+                lambda: self.driverController.getRightTriggerAxis(),
+                lambda: self.driverController.getLeftTriggerAxis(),
+                self.fuzzyBallIntakeSubsystem,
+            )
         )
+        self.automaticPneumatics.setDefaultCommand(
+            AutomaticPneumaticsCommand(
+                lambda: self.driverController.x(),
+                self.automaticPneumatics
+            )
+        )
+
 
     def getAutonomousCommand(self) -> commands2.Command:
         return AutoCommand()
