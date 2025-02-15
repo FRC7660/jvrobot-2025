@@ -7,10 +7,14 @@ class AutomaticPneumatics(commands2.Subsystem):
     def __init__(self):
         self.pcm = PneumaticsControlModule(Constants.AUTOMATICPNEUMATICS_COMPRESSOR_ID)
         self.solenoid_0 = Solenoid(
-            PneumaticsModuleType.CTREPCM, Constants.AUTOMATICPNEUMATICS_SOLENOID_CHANNEL
+            Constants.AUTOMATICPNEUMATICS_COMPRESSOR_ID,
+            PneumaticsModuleType.CTREPCM,
+            Constants.AUTOMATICPNEUMATICS_SOLENOID_CHANNEL,
             )
         self.solenoid_1 = Solenoid(
-            PneumaticsModuleType.CTREPCM, Constants.AUTOMATICPNEUMATICS_SOLENOID_CHANNEL_1
+            Constants.AUTOMATICPNEUMATICS_COMPRESSOR_ID,
+            PneumaticsModuleType.CTREPCM, 
+            Constants.AUTOMATICPNEUMATICS_SOLENOID_CHANNEL_1,
             )
         self.pcm.enableCompressorAnalog(
             Constants.PRESSURE_LOW_VALUE, Constants.PRESSURE_HIGH_VALUE
