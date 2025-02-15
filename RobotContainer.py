@@ -1,6 +1,7 @@
 import commands2
 import commands2.button
-from wpilib import RobotBase
+import Constants
+from wpilib import RobotBase, AnalogInput
 from wpilib.simulation import DriverStationSim
 
 import Constants
@@ -50,7 +51,7 @@ class RobotContainer:
     def configureButtonBindings(self):
         self.driveSubsystem.setDefaultCommand(
             DriveCommand(
-                lambda: -self.driverController.getLeftY(),
+                lambda: self.driverController.getLeftY(),
                 lambda: -self.driverController.getRightX(),
                 self.driveSubsystem,
             )
@@ -79,6 +80,7 @@ class RobotContainer:
             FuzzyBallIntakeCommand(
                 lambda: self.driverController.getRightTriggerAxis(),
                 lambda: self.driverController.getLeftTriggerAxis(),
+                lambda: AnalogInput(0).getValue(),
                 self.fuzzyBallIntakeSubsystem,
             )
         )

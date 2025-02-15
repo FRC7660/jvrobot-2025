@@ -24,8 +24,18 @@ class DriveCommand(commands2.Command):
     def initialize(self) -> None:
         pass
 
+    def apply_exponential_curve (self, value, exponent=4):
+        raw_value = value**exponent if value >= 0 else -(abs(value) ** exponent)
+        max_value = 1 ** exponent 
+        scaled_output = raw_value / max_value
+        return scaled_output
+
     def execute(self) -> None:
-        self.driveSubsystem.arcadeDrive(self.xSpeed(), self.zRotation())
+        self.driveSubsystem.arcadeDrive(
+            self.apply_exponential_curve(self.xSpeed()),
+            self.apply_exponential_curve(self.zRotation()),
+
+        )
 
     def end(self, interrupted: bool) -> None:
         pass
