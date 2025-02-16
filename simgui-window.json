@@ -6,13 +6,26 @@
     "GLOBAL": {
       "font": "Proggy Dotted",
       "fps": "120",
-      "height": "900",
-      "maximized": "1",
+      "height": "999",
+      "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "1600",
-      "xpos": "241",
-      "ypos": "314"
+      "width": "948",
+      "xpos": "2886",
+      "ypos": "27"
+    }
+  },
+  "Table": {
+    "0x965B9C9E,2": {
+      "Column 0  Width": "130",
+      "Column 1  Weight": "1.0000",
+      "RefScale": "13"
+    },
+    "0xE56EC1C2,4": {
+      "Column 0  Weight": "1.0000",
+      "Column 1  Weight": "1.0000",
+      "Column 2  Weight": "1.0000",
+      "Column 3  Weight": "1.0000"
     }
   },
   "Window": {
@@ -23,13 +36,13 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "303,617",
+      "Pos": "201,639",
       "Size": "796,206"
     },
     "###Keyboard 0 Settings": {
       "Collapsed": "0",
-      "Pos": "1288,26",
-      "Size": "300,560"
+      "Pos": "929,30",
+      "Size": "300,847"
     },
     "###Keyboard 1 Settings": {
       "Collapsed": "0",
@@ -38,23 +51,28 @@
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "237,368",
-      "Size": "937,231"
+      "Pos": "213,336",
+      "Size": "818,287"
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
-      "Pos": "155,30",
-      "Size": "750,145"
+      "Pos": "154,30",
+      "Size": "750,309"
     },
     "###Other Devices": {
       "Collapsed": "0",
-      "Pos": "1335,7",
+      "Pos": "929,21",
       "Size": "312,868"
     },
     "###PWM Outputs": {
       "Collapsed": "0",
       "Pos": "919,30",
       "Size": "133,48"
+    },
+    "###RoboRIO": {
+      "Collapsed": "0",
+      "Pos": "910,156",
+      "Size": "193,192"
     },
     "###Solenoids": {
       "Collapsed": "0",

@@ -4,6 +4,8 @@ import Constants
 from wpilib import RobotBase, AnalogInput
 from wpilib.simulation import DriverStationSim
 
+from networktables import NetworkTables
+
 import Constants
 from subsystems.FuzzyBallIntake import FuzzyBallIntakeSubsystem
 from subsystems.AutomaticPneumatics import AutomaticPneumatics
@@ -32,6 +34,10 @@ class RobotContainer:
             )
             DriverStationSim.setJoystickAxisCount(Constants.DRIVER_CONTROLLER_PORT, 10)
             DriverStationSim.notifyNewData()
+            NetworkTables.initialize(server='localhost')
+        else:
+            NetworkTables.initialize(server='10.76.60.2')
+        self.sd = NetworkTables.getTable('SmartDashboard')
 
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
@@ -81,6 +87,7 @@ class RobotContainer:
                 lambda: self.driverController.getRightTriggerAxis(),
                 lambda: self.driverController.getLeftTriggerAxis(),
                 lambda: AnalogInput(0).getValue(),
+                self.sd,
                 self.fuzzyBallIntakeSubsystem,
             )
         )
