@@ -13,7 +13,7 @@ class AutoCommand(commands2.Command):
     def __init__(self, driveSubsystem: CANDriveSubsystem) -> None:
         self.driveSubsystem = driveSubsystem
         self.timer = wpilib.Timer()
-        self.seconds = 1.0
+        self.seconds = 1.5
         self.addRequirements(self.driveSubsystem)
         super().__init__()
 
@@ -23,7 +23,7 @@ class AutoCommand(commands2.Command):
         
     # called every loop cycle (~20 ms) while command is running
     def execute(self) -> None:
-        self.driveSubsystem.arcadeDrive(0.5, 0.0)
+        self.driveSubsystem.arcadeDrive(-0.5, 0.0)
 
     # called after every execution to check if command is finished
     def isFinished(self) -> bool:

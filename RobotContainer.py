@@ -94,6 +94,7 @@ class RobotContainer:
         self.automaticPneumatics.setDefaultCommand(
             AutomaticPneumaticsCommand(
                 lambda: self.driverController.x(),
+                lambda: AnalogInput(0).getValue(),
                 self.automaticPneumatics
             )
         )
