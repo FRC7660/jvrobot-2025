@@ -18,6 +18,11 @@
         {
           "decKey": 69,
           "incKey": 82
+        },
+        {},
+        {
+          "decKey": 74,
+          "incKey": 76
         }
       ],
       "axisCount": 6,

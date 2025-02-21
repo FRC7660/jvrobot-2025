@@ -14,6 +14,7 @@ class AutoCommand(commands2.Command):
         self.driveSubsystem = driveSubsystem
         self.timer = wpilib.Timer()
         self.seconds = 1.0
+        self.addRequirements(self.driveSubsystem)
         super().__init__()
 
     # called when command is initially scheduled
