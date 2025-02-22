@@ -1,23 +1,20 @@
-# Copyright (c) FIRST and other WPILib contributors.
-# Open Source Software; you can modify and/or share it under the terms of
-# the WPILib BSD license file in the root directory of this project.
-
+import Constants
 import commands2
 import wpilib
 from subsystems.CANDriveSubsystem import CANDriveSubsystem
+from subsystems.CANRollerSubsystem import CANRollerSubsystem
 
 
-# Command class to run the robot forwards at 1/2 power for 1 second in autonomous.
 class AutoCommand(commands2.Command):
-    # Constructor for CAN command
-    def __init__(self, driveSubsystem: CANDriveSubsystem) -> None:
+    def __init__(self, driveSubsystem: CANDriveSubsystem, rollerSubsystem: CANRollerSubsystem) -> None:
         self.driveSubsystem = driveSubsystem
+        self.rollerSubsystem = rollerSubsystem
         self.timer = wpilib.Timer()
-        self.seconds = 1.5
+        self.seconds = 3.0
         self.addRequirements(self.driveSubsystem)
+        self.addRequirements(self.rollerSubsystem)
         super().__init__()
 
-    # called when command is initially scheduled
     def initialize(self) -> None:
         self.timer.restart()
         
@@ -30,12 +27,13 @@ class AutoCommand(commands2.Command):
         elif self.timer.get() < 1.5:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
         elif self.timer.get() < 2.0:
+            self.driveSubsystem.arcadeDrive(0.0, 0.0)
             self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
 
-    # called after every execution to check if command is finished
     def isFinished(self) -> bool:
         return self.timer.get() >= self.seconds
 
-    # called when command ends
     def end(self, interrupted: bool) -> None:
         self.driveSubsystem.arcadeDrive(0.0, 0.0)
+        self.rollerSubsystem.runRoller(0.0, 0.0)
+
