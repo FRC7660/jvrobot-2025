@@ -21,9 +21,16 @@ class AutoCommand(commands2.Command):
     def initialize(self) -> None:
         self.timer.restart()
         
-    # called every loop cycle (~20 ms) while command is running
+    
     def execute(self) -> None:
-        self.driveSubsystem.arcadeDrive(-0.5, 0.0)
+        if self.timer.get() < 0.5:
+            self.driveSubsystem.arcadeDrive(0.5, 0.0)
+        elif self.timer.get() < 1.0:
+            self.driveSubsystem.arcadeDrive(0.0, 0.5)
+        elif self.timer.get() < 1.5:
+            self.driveSubsystem.arcadeDrive(0.5, 0.0)
+        elif self.timer.get() < 2.0:
+            self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
 
     # called after every execution to check if command is finished
     def isFinished(self) -> bool:

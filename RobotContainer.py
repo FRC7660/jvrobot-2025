@@ -101,4 +101,4 @@ class RobotContainer:
 
 
     def getAutonomousCommand(self) -> commands2.Command:
-        return AutoCommand(self.driveSubsystem)
+        return AutoCommand(self.driveSubsystem, self.rollerSubsystem)
