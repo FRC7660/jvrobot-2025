@@ -3,7 +3,7 @@ import commands2.button
 import Constants
 from wpilib import RobotBase, AnalogInput
 from wpilib.simulation import DriverStationSim
-from wpilib.cameraserver import CameraServer
+from cscore import CameraServer
 
 from networktables import NetworkTables
 
@@ -39,7 +39,7 @@ class RobotContainer:
         else:
             NetworkTables.initialize(server='10.76.60.2')
         self.sd = NetworkTables.getTable('SmartDashboard')
-        CameraServer.launch()
+        CameraServer.startAutomaticCapture()
         
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
@@ -53,6 +53,8 @@ class RobotContainer:
         self.automaticPneumatics = AutomaticPneumatics ()
         self.automaticPneumatics.set_solenoid_0(True)
         self.automaticPneumatics.set_solenoid_1(False)
+
+        # self.sd.putNumber('camera_server', CameraServer.is_alive())
 
         self.configureButtonBindings()
 
