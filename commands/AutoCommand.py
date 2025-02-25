@@ -10,7 +10,7 @@ class AutoCommand(commands2.Command):
         self.driveSubsystem = driveSubsystem
         self.rollerSubsystem = rollerSubsystem
         self.timer = wpilib.Timer()
-        self.seconds = 7.7
+        self.seconds = 7.9
         self.addRequirements(self.driveSubsystem)
         self.addRequirements(self.rollerSubsystem)
         super().__init__()
@@ -28,9 +28,9 @@ class AutoCommand(commands2.Command):
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
         elif self.timer.get() < 6.1:
             self.driveSubsystem.arcadeDrive(0.0, -0.5)
-        elif self.timer.get() < 6.7:
+        elif self.timer.get() < 7.0:
          self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 7.1:
+        elif self.timer.get() < 7.5:
             self.driveSubsystem.arcadeDrive(0.0, 0.0)
             self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
 
