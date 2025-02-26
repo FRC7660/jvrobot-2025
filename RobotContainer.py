@@ -76,7 +76,7 @@ class RobotContainer:
         #         self.rollerSubsystem,
         #     )
         # )
-        self.leftTrigger = commands2.button.JoystickButton(self.leftController, 1)
+        self.leftTrigger = self.leftController.button(1)
         self.leftTrigger.whileTrue(
             RollerCommand(
             lambda: Constants.ROLLEY_THINGEY_EJECT_SPEED, 
@@ -99,10 +99,10 @@ class RobotContainer:
                 self.fuzzyBallIntakeSubsystem,
             )
         )
-        self.rightTrigger = commands2.button.JoystickButton(self.rightController, 1)
+        self.rightTrigger = self.rightController.button(1)
         self.automaticPneumatics.setDefaultCommand(
             AutomaticPneumaticsCommand(
-                lambda: self.rightTrigger.getAsBoolean(),
+                lambda: self.rightTrigger,
                 lambda: AnalogInput(0).getValue(),
                 self.automaticPneumatics
             )

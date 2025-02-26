@@ -32,9 +32,8 @@ class DriveCommand(commands2.Command):
 
     def execute(self) -> None:
         self.driveSubsystem.tankDrive(
-            self.leftSpeed,
-            self.rightSpeed
-
+            self.leftSpeed(),
+            self.rightSpeed()
         )
 
     def end(self, interrupted: bool) -> None:
