@@ -64,8 +64,8 @@ class RobotContainer:
     def configureButtonBindings(self):
         self.driveSubsystem.setDefaultCommand(
             DriveCommand(
-                lambda: self.leftController.getRawAxis(0),
-                lambda: self.rightController.getRawAxis(0),
+                lambda: self.leftController.getRawAxis(1),
+                lambda: self.rightController.getRawAxis(1),
                 self.driveSubsystem,
             )
         )
