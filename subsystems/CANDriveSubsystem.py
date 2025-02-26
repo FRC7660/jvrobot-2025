@@ -59,3 +59,6 @@ class CANDriveSubsystem(commands2.Subsystem):
         
     def arcadeDrive(self, xSpeed: float, zRotation: float) -> None:
         self.drive.arcadeDrive(xSpeed, zRotation)
+
+    def tankDrive(self, leftSpeed: float, rightSpeed: float) -> None:
+        self.drive.tankDrive(leftSpeed, rightSpeed, False)

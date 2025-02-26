@@ -11,29 +11,29 @@ from subsystems.CANDriveSubsystem import CANDriveSubsystem
 class DriveCommand(commands2.Command):
     def __init__(
         self,
-        xSpeed: lambda xSpeed: xSpeed,
-        zRotation: lambda zRotation: zRotation,
+        leftSpeed: lambda leftSpeed: leftSpeed,
+        rightSpeed: lambda rightSpeed: rightSpeed,
         driveSubsystem: CANDriveSubsystem,
     ) -> None:
         self.driveSubsystem = driveSubsystem
-        self.xSpeed = xSpeed
-        self.zRotation = zRotation
+        self.leftSpeed = leftSpeed
+        self.rightSpeed = rightSpeed
         self.addRequirements(self.driveSubsystem)
         super().__init__()
 
     def initialize(self) -> None:
         pass
 
-    def apply_exponential_curve (self, value, exponent=4):
+    def apply_exponential_curve (self, value, exponent=2):
         raw_value = value**exponent if value >= 0 else -(abs(value) ** exponent)
         max_value = 1 ** exponent 
         scaled_output = raw_value / max_value
         return scaled_output
 
     def execute(self) -> None:
-        self.driveSubsystem.arcadeDrive(
-            self.apply_exponential_curve(self.xSpeed()),
-            self.apply_exponential_curve(self.zRotation()),
+        self.driveSubsystem.tankDrive(
+            self.leftSpeed,
+            self.rightSpeed
 
         )
 
