@@ -64,8 +64,8 @@ class RobotContainer:
     def configureButtonBindings(self):
         self.driveSubsystem.setDefaultCommand(
             DriveCommand(
-                lambda: self.leftController.getRawAxis(1),
-                lambda: self.rightController.getRawAxis(1),
+                lambda: -self.leftController.getRawAxis(1),
+                lambda: -self.rightController.getRawAxis(1),
                 self.driveSubsystem,
             )
         )
@@ -90,10 +90,12 @@ class RobotContainer:
                 self.rollerSubsystem,
             )
         )
+        self.rightThree = self.rightController.button(3)
+        self.rightFour = self.rightController.button(4)
         self.fuzzyBallIntakeSubsystem.setDefaultCommand(
             FuzzyBallIntakeCommand(
-                lambda: self.codriverController.getRightTriggerAxis(),
-                lambda: self.codriverController.getLeftTriggerAxis(),
+                lambda: 0.5 if self.rightThree.getAsBoolean() else 0,
+                lambda: 0.5 if self.rightFour.getAsBoolean() else 0,
                 lambda: AnalogInput(0).getValue(),
                 self.sd,
                 self.fuzzyBallIntakeSubsystem,
