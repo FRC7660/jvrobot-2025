@@ -24,7 +24,7 @@ class DriveCommand(commands2.Command):
     def initialize(self) -> None:
         pass
 
-    def apply_exponential_curve (self, value, exponent=4):
+    def apply_exponential_curve (self, value, exponent=1):
         raw_value = value**exponent if value >= 0 else -(abs(value) ** exponent)
         max_value = 1 ** exponent 
         scaled_output = raw_value / max_value
