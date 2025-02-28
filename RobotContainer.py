@@ -1,7 +1,7 @@
 import commands2
 import commands2.button
 import Constants
-from wpilib import RobotBase, AnalogInput
+from wpilib import RobotBase, AnalogInput, SmartDashboard, SendableChooser
 from wpilib.simulation import DriverStationSim
 from cscore import CameraServer
 
@@ -40,6 +40,14 @@ class RobotContainer:
             NetworkTables.initialize(server='10.76.60.2')
         self.sd = NetworkTables.getTable('SmartDashboard')
         CameraServer.startAutomaticCapture()
+
+        self.autoChooser = SendableChooser()
+        self.autoChooser.addOption("Turn Left", 1)
+        self.autoChooser.addOption("Turn Right", 2)
+        self.autoChooser.addOption("Just Move", 3)
+        self.autoChooser.addOption("Forward_Coral", 4)
+        self.autoChooser.setDefaultOption("Just Move", 3)
+        SmartDashboard.putData("AutoMode", self.autoChooser)
         
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
@@ -104,4 +112,4 @@ class RobotContainer:
         )
 
     def getAutonomousCommand(self) -> commands2.Command:
-        return AutoCommand(self.driveSubsystem, self.rollerSubsystem)
+        return AutoCommand(self.driveSubsystem, self.rollerSubsystem, self.autoChooser)
