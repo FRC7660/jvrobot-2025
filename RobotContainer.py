@@ -1,8 +1,9 @@
 import commands2
 import commands2.button
 import Constants
-from wpilib import RobotBase, AnalogInput
+from wpilib import RobotBase, AnalogInput, SmartDashboard, SendableChooser
 from wpilib.simulation import DriverStationSim
+from cscore import CameraServer
 from cscore import CameraServer
 
 from networktables import NetworkTables
@@ -35,12 +36,20 @@ class RobotContainer:
             )
             DriverStationSim.setJoystickAxisCount(Constants.DRIVER_CONTROLLER_PORT, 10)
             DriverStationSim.notifyNewData()
-            NetworkTables.initialize(server='localhost')
+            NetworkTables.initialize(server="localhost")
         else:
-            NetworkTables.initialize(server='10.76.60.2')
-        self.sd = NetworkTables.getTable('SmartDashboard')
+            NetworkTables.initialize(server="10.76.60.2")
+        self.sd = NetworkTables.getTable("SmartDashboard")
         CameraServer.startAutomaticCapture()
-        
+
+        self.autoChooser = SendableChooser()
+        self.autoChooser.addOption("Turn Right", 1)
+        self.autoChooser.addOption ("Turn Left", 2)
+        self.autoChooser.addOption("Just Move", 3)
+        self.autoChooser.addOption("Hit Rear Reef", 2)
+        self.autoChooser.setDefaultOption("Just Move", 3)
+        SmartDashboard.putData("AutoMode", self.autoChooser)
+
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
         )
@@ -50,7 +59,7 @@ class RobotContainer:
         self.driveSubsystem = CANDriveSubsystem()
         self.rollerSubsystem = CANRollerSubsystem()
         self.fuzzyBallIntakeSubsystem = FuzzyBallIntakeSubsystem()
-        self.automaticPneumatics = AutomaticPneumatics ()
+        self.automaticPneumatics = AutomaticPneumatics()
         self.automaticPneumatics.set_solenoid_0(True)
         self.automaticPneumatics.set_solenoid_1(False)
 
@@ -66,18 +75,11 @@ class RobotContainer:
                 self.driveSubsystem,
             )
         )
-     #   self.rollerSubsystem.setDefaultCommand(
-        #    # RollerCommand(
-        #         lambda: self.driverController.getRightTriggerAxis(),
-        #         lambda: self.driverController.getLeftTriggerAxis(),
-        #         self.rollerSubsystem,
-        #     )
-        # )
         self.driverController.a().whileTrue(
             RollerCommand(
-            lambda: Constants.ROLLEY_THINGEY_EJECT_SPEED, 
-            lambda: 0, 
-            self.rollerSubsystem
+                lambda: Constants.ROLLEY_THINGEY_EJECT_SPEED,
+                lambda: 0,
+                self.rollerSubsystem,
             )
         ).whileFalse(
             RollerCommand(
@@ -99,9 +101,9 @@ class RobotContainer:
             AutomaticPneumaticsCommand(
                 lambda: self.driverController.x(),
                 lambda: AnalogInput(0).getValue(),
-                self.automaticPneumatics
+                self.automaticPneumatics,
             )
         )
 
     def getAutonomousCommand(self) -> commands2.Command:
-        return AutoCommand(self.driveSubsystem, self.rollerSubsystem)
+        return AutoCommand(self.driveSubsystem, self.rollerSubsystem, self.autoChooser)

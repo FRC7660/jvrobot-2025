@@ -27,15 +27,15 @@ class AutoCommand(commands2.Command):
     def routine1(self):
         if self.timer.get() < 2:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 2.9:
+        elif self.timer.get() < 3.3:
             self.driveSubsystem.arcadeDrive(0.0, -0.5)
-        elif self.timer.get() < 4.9:
+        elif self.timer.get() < 5.1:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 6.1:
+        elif self.timer.get() < 6.3:
             self.driveSubsystem.arcadeDrive(0.0, -0.5)
-        elif self.timer.get() < 7.0:
-         self.driveSubsystem.arcadeDrive(0.5, 0.0)
         elif self.timer.get() < 7.5:
+         self.driveSubsystem.arcadeDrive(0.5, 0.0)
+        elif self.timer.get() < 8.1:
             self.driveSubsystem.arcadeDrive(0.0, 0.0)
             self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
         elif self.timer.get() < 10.0:
@@ -44,15 +44,15 @@ class AutoCommand(commands2.Command):
     def routine2(self):
         if self.timer.get() < 2:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 2.5:
+        elif self.timer.get() < 3.3:
             self.driveSubsystem.arcadeDrive(0.0, 0.5)
-        elif self.timer.get() < 4.4:
+        elif self.timer.get() < 5.1:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 5.6:
+        elif self.timer.get() < 6.3:
             self.driveSubsystem.arcadeDrive(0.0, 0.5)
-        elif self.timer.get() < 6.7:
+        elif self.timer.get() < 7.5:
          self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 7.2:
+        elif self.timer.get() < 8.1:
             self.driveSubsystem.arcadeDrive(0.0, 0.0)
             self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
         elif self.timer.get() < 10.0:
@@ -66,9 +66,12 @@ class AutoCommand(commands2.Command):
         
 
     def routine4(self):
-        if self.timer.get() < 2:
+        if self.timer.get() < 3.5:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-        elif self.timer.get() < 2.5:
+         elif self.timer.get() < 8.1:
+            self.driveSubsystem.arcadeDrive(0.0, 0.0)
+            self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
+        elif self.timer.get() < 8.0:
             self.end(False)
             
 
