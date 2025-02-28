@@ -68,7 +68,7 @@ class AutoCommand(commands2.Command):
     def routine4(self):
         if self.timer.get() < 3.5:
             self.driveSubsystem.arcadeDrive(0.5, 0.0)
-         elif self.timer.get() < 8.1:
+        elif self.timer.get() < 6.3:
             self.driveSubsystem.arcadeDrive(0.0, 0.0)
             self.rollerSubsystem.runRoller(Constants.ROLLEY_THINGEY_EJECT_SPEED, 0.0)
         elif self.timer.get() < 8.0:
