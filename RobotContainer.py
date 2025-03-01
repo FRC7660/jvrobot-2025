@@ -81,7 +81,22 @@ class RobotContainer:
                 lambda: 0,
                 self.rollerSubsystem,
             )
-        ).whileFalse(
+        )
+        self.driverController.b().whileTrue(
+            RollerCommand(
+                lambda: Constants.ROLLEY_THINGEY_SPEEDY_EJECT_SPEED,
+                lambda: 0,
+                self.rollerSubsystem,
+            )
+        )
+        self.driverController.a().onFalse(
+            RollerCommand(
+                lambda: 0,
+                lambda: 0,
+                self.rollerSubsystem,
+            )
+        )
+        self.driverController.b().onFalse(
             RollerCommand(
                 lambda: 0,
                 lambda: 0,
