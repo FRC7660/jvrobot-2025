@@ -28,7 +28,7 @@ class AutomaticPneumaticsCommand(commands2.Command):
             self.pneumatics_subsystem.set_solenoid_1(not self.extend)
             self.extend = not self.extend
             self.timer.reset()
-        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH and self.timer() > 4.0:
+        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH and self.timer.get() > 4.0:
             self.pneumatics_subsystem.set_solenoid_0(True)
             self.pneumatics_subsystem.set_solenoid_1(False)
             self.extend = False
