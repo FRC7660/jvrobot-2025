@@ -46,6 +46,7 @@ class RobotContainer:
         self.autoChooser.addOption("Turn Right", 1)
         self.autoChooser.addOption ("Turn Left", 2)
         self.autoChooser.addOption("Just Move", 3)
+        self.autoChooser.addOption("Long Forward", 5)
         self.autoChooser.addOption("Hit Rear Reef", 4)
         self.autoChooser.setDefaultOption("Just Move", 3)
         SmartDashboard.putData("AutoMode", self.autoChooser)

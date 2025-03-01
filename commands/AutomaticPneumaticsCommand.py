@@ -1,5 +1,6 @@
 import commands2
 import Constants
+import wpilib
 from subsystems.AutomaticPneumatics import AutomaticPneumatics
 
 class AutomaticPneumaticsCommand(commands2.Command):
@@ -13,6 +14,7 @@ class AutomaticPneumaticsCommand(commands2.Command):
         self.extend = False 
         self.button_previous = False 
         self.limit_switch = limit_switch
+        self.timer = wpilib.Timer()
         self.pneumatics_subsystem = pneumatics_subsystem
         self.addRequirements(self.pneumatics_subsystem)
         super().__init__()
@@ -25,7 +27,8 @@ class AutomaticPneumaticsCommand(commands2.Command):
             self.pneumatics_subsystem.set_solenoid_0(self.extend)
             self.pneumatics_subsystem.set_solenoid_1(not self.extend)
             self.extend = not self.extend
-        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH:
+            self.timer.reset()
+        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH and self.timer > 0.5:
             self.pneumatics_subsystem.set_solenoid_0(True)
             self.pneumatics_subsystem.set_solenoid_1(False)
             self.extend = False
