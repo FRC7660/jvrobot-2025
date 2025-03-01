@@ -20,15 +20,15 @@ class AutomaticPneumaticsCommand(commands2.Command):
         super().__init__()
 
     def initialize(self) -> None:
-        pass
+        self.timer.restart()
 
     def execute(self) -> None:
         if self.button_previous == False and self.button().getAsBoolean() == True:
             self.pneumatics_subsystem.set_solenoid_0(self.extend)
             self.pneumatics_subsystem.set_solenoid_1(not self.extend)
             self.extend = not self.extend
-            self.timer.reset()
-        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH and self.timer.get() > 4.0:
+            self.timer.restart()
+        if self.extend == True and self.limit_switch() > Constants.HALF_WIT_SWITCH and self.timer.get() > 0.6:
             self.pneumatics_subsystem.set_solenoid_0(True)
             self.pneumatics_subsystem.set_solenoid_1(False)
             self.extend = False
