@@ -46,16 +46,14 @@ class RobotContainer:
         self.autoChooser.addOption("Turn Right", 1)
         self.autoChooser.addOption ("Turn Left", 2)
         self.autoChooser.addOption("Just Move", 3)
+        self.autoChooser.addOption("Long Forward", 5)
         self.autoChooser.addOption("Hit Rear Reef", 4)
         self.autoChooser.setDefaultOption("Just Move", 3)
         SmartDashboard.putData("AutoMode", self.autoChooser)
-
         self.driverController = commands2.button.CommandXboxController(
             Constants.DRIVER_CONTROLLER_PORT
         )
-        self.operatorController = commands2.button.CommandXboxController(
-            Constants.OPERATOR_CONTROLLER_PORT
-        )
+        
         self.driveSubsystem = CANDriveSubsystem()
         self.rollerSubsystem = CANRollerSubsystem()
         self.fuzzyBallIntakeSubsystem = FuzzyBallIntakeSubsystem()
